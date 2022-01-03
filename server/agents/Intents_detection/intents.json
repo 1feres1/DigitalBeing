@@ -1,0 +1,54 @@
+{
+  "intents": [
+    {"tag": "greeting",
+     "patterns": ["Hi there", "How are you", "Hi, How are you ?", "hello there","Hey","Hola", "Hello", "Good day", "hello how are you ?"],
+     "responses": ["Good to see you, can you remind me of your name please", "Hi there, can you remind me of your name please", "happy to see you, please what's your name "]
+      },
+      
+	        {
+        "patterns": ["My name is, and you ?","I'm nesrine and you ?"],
+        "tag": "name",
+        "responses": ["Nice to meet you, i'm your HR assistant. How can i help you ? "]
+      },
+      
+      {
+        "patterns": ["That's okay","Okay", "yes, i understand", "Absolutely yes", "It's okay", "indeed", "that's right", "Ok", "that's great"],
+        "tag": "affirm",
+        "responses": ["Do you have other questions ?"]
+      },
+	
+	  {
+        "patterns": ["Thanks!", "Thank you ! ", "Thank you very much", "That's helpful"],
+        "tag": "Thank",
+        "responses": ["Welcome!"]
+      },
+      {
+        "patterns": ["Bye", "Goodbye", "Ciao", "See you again, bye"],
+        "tag": "goodbye",
+        "responses": ["Goodbye"]
+      },
+      {
+        "patterns": ["how many leaves can i take?", "can i get leave?", "please grant me for 5 days", "I want leave for 2 days", "want to get leave for 4 days from 20 sept. to 24 sept."],
+        "tag": "holiday",
+        "responses": [" You have to check the byblos platform, please visit this link for more details https://byblos.talan.com/nb/#/login "]
+      },
+
+      {
+        "patterns": ["want to know company's policy", "what's your policy?", "what's company's policy?", "may i know your policies?"],
+        "tag": "policy",
+        "responses": ["here is a pdf file for more information about our company's policy "]
+      },
+
+      {
+        "patterns": ["can i get my password and my login for the assurance plateform", "I need my access to the assurance plateform ", "want to konow my access to the assurance plateform"],
+        "tag": "assurance",
+        "responses": ["Here is the adress mail of Ms leila TRIFA leila.trifa@talan.com you can contact her "]
+      },
+      {
+        "patterns": ["can i get my work certificate", "May i get my work certificate", "want to get my work certificate", ""],
+        "tag": "work_certificate",
+        "responses": ["okay i will send it to you please check your mail later"]
+      }
+
+    ]
+  }

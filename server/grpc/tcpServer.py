@@ -7,7 +7,6 @@ class tcpServer:
         self.DB = DB
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        self._socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
         self._socket.bind((host, port))
         print('listening')
         self._socket.listen(1)
@@ -156,6 +155,7 @@ class tcpServer:
                     print('found incorect packet id: ' + str(packetId))
 
     def sendMessage(self, json: str):
+        print('i m here ')
         if (hasattr(self, 'conn')):
             try:
                 self.conn.send(str(json).encode())

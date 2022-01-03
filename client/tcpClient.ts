@@ -123,12 +123,15 @@ export class tcpClient {
     }
 
     send(json: string) {
+ 
         if (this.client !== undefined) {
+            console.log('yessssssssssssssssssssssss')
             this.client.write(json)
         }
     }
 
     sendMessage(message: string, message_id: string, client_name: string, chat_id: string, createdAt: string, addPing: boolean, author: string, args: string = 'none') {
+        
         this.send(JSON.stringify({
             id: 0, 
             message: message, 

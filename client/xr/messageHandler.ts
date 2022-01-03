@@ -4,7 +4,10 @@ import { getRandomEmptyResponse, startsWithCapital } from "../utils";
 import { addMessageToHistory, exitConversation, getChatHistory, isInConversation, moreThanOneInConversation, onMessageResponseUpdated, prevMessage, prevMessageTimers, saveIfHandled, sentMessage, wasHandled } from "./chatHistory";
 
 export async function handleMessages(messages, bot) {
-    for (let i = 0; i < messages.length; i++) {
+    console.log(messages.length)
+    
+    for (let i = messages.length-1; i < messages.length; i++) {
+        
         if (messages[i].text.includes('[') && messages[i].text.includes(']')) continue
         else if (messages[i].text.includes('joined the layer') || messages[i].text.includes('left the layer') || messages[i].text.length === 0) continue
         else if (messages[i].text.includes('in harassment range with')) continue
@@ -15,7 +18,7 @@ export async function handleMessages(messages, bot) {
         else if (messages[i].senderName === bot.name || 
             (messages[i].sender !== undefined && messages[i].sender.id === bot.userId) || 
             (messages[i].author !== undefined && messages[i].author[1] === bot.userId)) {
-            addMessageToHistory(messages[i].channelId, messages[i].id, process.env.BOT_NAME, messages[i].text)
+            //addMessageToHistory(messages[i].channelId, messages[i].id, process.env.BOT_NAME, messages[i].text)
             continue
         }
         else if (await wasHandled(messages[i].channelId, messages[i].id)) continue
@@ -35,7 +38,18 @@ export async function handleMessages(messages, bot) {
         const _sender = messages[i].senderName !== undefined ? messages[i].senderName : messages[i].sender.name
         let content = messages[i].text
         console.log('handling message: ' + content)
+        const dateNow = new Date();
+        var utc = new Date(dateNow.getUTCFullYear(), dateNow.getUTCMonth(), dateNow.getUTCDate(), dateNow.getUTCHours(), dateNow.getUTCMinutes(), dateNow.getUTCSeconds());
+        let _prev = undefined
+        let addPing = false
+        _prev = prevMessage[messages[i].channelId]
+        const utcStr = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear() + ' ' + utc.getHours() + ':' + utc.getMinutes() + ':' + utc.getSeconds()
+        addPing = (_prev !== undefined && _prev !== '' && _prev !== _sender) || moreThanOneInConversation()
+        tcpClient.getInstance.sendMessage(content, messages[i].id, 'xr-engine', messages[i].channelId, utcStr, addPing, _sender, _sender)
+        console.log('handling message done and message is sent !! ')
+        /*
         addMessageToHistory(messages[i].channelId, messages[i].id, _sender, content)
+        
         let addPing = false
         let _prev = undefined
         _prev = prevMessage[messages[i].channelId]
@@ -82,13 +96,9 @@ export async function handleMessages(messages, bot) {
 
         if (content.startsWith('!ping')) sentMessage(_sender)
         else continue
-        console.log('content: ' + content + ' sender: ' + _sender)
+        console.log('content: ' + content + ' sender: ' + _sender)*/
         
-        const dateNow = new Date();
-        var utc = new Date(dateNow.getUTCFullYear(), dateNow.getUTCMonth(), dateNow.getUTCDate(), dateNow.getUTCHours(), dateNow.getUTCMinutes(), dateNow.getUTCSeconds());
-        const utcStr = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear() + ' ' + utc.getHours() + ':' + utc.getMinutes() + ':' + utc.getSeconds()
-
-        tcpClient.getInstance.sendMessage(content.replace('!ping', ''), messages[i].id, 'xr-engine', messages[i].channelId, utcStr, addPing, _sender, _sender)
+        
     }
 }
 

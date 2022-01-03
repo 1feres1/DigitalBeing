@@ -12,7 +12,7 @@ const XRENGINE_URL = process.env.XRENGINE_URL || 'https://dev.theoverlay.io/loca
 const browserLauncher= require('../../src/browser-launcher')
 const { existsSync } = require('fs');
 
-const doTests: boolean = true
+const doTests: boolean = false
 
 const _redisDb = new redisDb()
 
@@ -43,6 +43,7 @@ console.log('bot loaded')
         setTimeout(() => xrengineBot.sendMessage("Hello World! I have connected."), 5000);
     });*/
 console.log('bot fully loaded')
+xrengineBot.sendMessage("Hello World! I have connected.")
 }
 
 /**
@@ -72,14 +73,16 @@ class XREngineBot {
         this.name = name;
         this.autoLog = autoLog;
         this.fakeMediaPath = fakeMediaPath;
-        setInterval(() => this.getInstanceMessages(), 1000)
+        setInterval(() => this.getInstanceMessages(), 10000)
     }
 
     async sendMessage(message) {
         console.log('sending message: ' + message)
         if(message === null || message === undefined) return;
+        console.log('i foun youuuuuuuuu !!!!!!!')
         await this.typeMessage('newMessage', message, false);
         await this.pressKey('Enter')
+      
     }
 
     async sendMovementCommand(x : any, y: any, z : any) {
@@ -207,7 +210,12 @@ class XREngineBot {
 
         await this.updateChannelState()
         if(!this.activeChannel) return;
-        const messages = this.activeChannel.messages;
+        let  messages = this.activeChannel.messages;
+        
+        
+        
+        
+        console.log(messages.length)    
         if (messages === undefined || messages === null) return;
 
         for(var i = 0; i < messages.length; i++ ){
@@ -224,14 +232,14 @@ class XREngineBot {
             messages[i].createdAt = new Date(messages[i].createdAt).getTime() / 1000
             messages[i].author = ['xr-engine', senderId]
 
-            if (this.chatHistory.includes(messageId) || this.userId === senderId || 
+            /*if (this.chatHistory.includes(messageId) || this.userId === senderId || 
                 userDatabase.getInstance.isUserBanned(senderId, 'xr-engine')) {
                 const index : number = await this.getMessageIndex(messages, messageId)
                 if (index > -1) messages.splice(index, 1)
-            }
+            }*/
             
             //await _redisDb.setValue(messageId, messages[i])
-            this.chatHistory.push(messageId)
+            //this.chatHistory.push(messageId)
         }
 
         await handleMessages(messages, this)
@@ -526,7 +534,7 @@ class XREngineBot {
         const index = this.getRandomNumber(0, this.avatars.length - 1)
         console.log(`avatar index: ${index}`)
         await this.updateAvatar(this.avatars[index])
-        await this.requestPlayers()
+        //await this.requestPlayers()
         await this.getUser()
         await setInterval(() => this.getUser(), 1000)
     }
@@ -633,6 +641,7 @@ class XREngineBot {
 
     async typeMessage(input: string, message: string, clean: boolean) {
         if (clean) await this.page.click(`input[name="${input}"]`, { clickCount: 3 });
+       
         await this.page.type(`input[name=${input}`, message);
         //await this.page.keyboard.type(message);
     }

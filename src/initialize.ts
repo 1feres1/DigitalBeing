@@ -30,7 +30,7 @@ const pyConnect = require('./pyconnect');
 (async function(){  
     await pyConnect.invoke(async function(){
         await new tcpClient().init('127.0.0.1', process.env.TCP_PORT) 
-        await require("../client/discord/discord-client").createDiscordClient();
+        //await require("../client/discord/discord-client").createDiscordClient();
         //await require("../client/reddit/reddit-client").createRedditClient();
         //await require("../client/messenger/messenger-client").createMessengerClient();
         //await require("../client/instagram/instagram-client").createInstagramClient();
@@ -39,7 +39,7 @@ const pyConnect = require('./pyconnect');
         //await require("../client/whatsapp/whatsapp-client").createWhatsappClient();
         //await require("../client/twitter/twitter-client").createTwitterClient();
         //await require("../client/harmony/harmony-client").createHarmonyClient();
-        //await require("../client/xr/xrengine-client").createXREngineClient();
+        await require("../client/xr/xrengine-client").createXREngineClient();
         //await require("../client/zoom/zoom-client").createZoomClient();
     }); 
 })();

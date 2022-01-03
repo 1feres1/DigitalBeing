@@ -81,6 +81,7 @@ class DigitalBeing():
             chat_history = self.postgres.getHistory(int(os.getenv('CHAT_HISTORY_MESSAGES_COUNT')), client_name, chat_id, author)
             userFirstMessage: bool = not self.postgres.getHasUserSentMessage(client_name, author)
             print('userFirstMessage: ', userFirstMessage)
+            print(message , )
             parent_chat_history = []
             if (len(args.split(':')) == 2 and len(chat_history) < int(os.getenv('CHAT_HISTORY_MESSAGES_COUNT'))):
                 _len = int(os.getenv('CHAT_HISTORY_MESSAGES_COUNT')) - len(chat_history)
@@ -97,6 +98,7 @@ class DigitalBeing():
             responses_dict = {}
             i = 0
             for model_name in param.SELECTED_AGENTS:
+                print(model_name)
                 if model_name == 'gpt3':
                     responses_dict = {}
                     if ('\n' in message):
@@ -151,7 +153,9 @@ class DigitalBeing():
 
                 elif model_name == "repeat":
                     responses_dict = {}
-                    responses_dict['repeat'] = self.addEmojis(self.repeat_agent.handle_message(message))
+
+                    print("**********", message, "*************")
+                    responses_dict['repeat'] =  self.repeat_agent.handle_message(message)
                     
                     if (len(responses_dict) == 0):
                         responses_dict = { 'none': 'none' }
